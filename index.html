@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <!-- Bower powered js vendor file -->
+    <script src="build/js/vendor.min.js"></script>
+    <!-- Bower powered css vendor file -->
+    <link rel="stylesheet" href="build/css/vendor.css">
+    <!-- my css -->
+    <link href="app.css" rel="stylesheet">
+    <!-- js execution file -->
+    <script type="text/javascript" src="build/js/app.js"></script>
+    <!-- script to list countries and states  -->
+    <script type= "text/javascript" src = "countries.js"></script>
+    <!-- google font -->
+    <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+    <title>Weather App</title>
+  </head>
+
+  <body>
+
+    <div class = "jumbotron">
+      <h1>World Weather</h1>
+    </div>
+
+    <div class="container">
+
+      <h4><span id="currentTime"></span></h4><br>
+
+      <form id="location" action="index.html" method="post">
+
+        Select Country (with states):   <select id="country" name ="country"></select>
+        Select State: <select name ="state" id ="state"></select><br><br>
+        <label for="city">City:</label>
+        <input type="text" name="city" id="city"><br><br>
+        <script language="javascript">
+        populateCountries("country", "state");
+        </script>
+        <button type="submit" class="btn btn-info" name="button">Check Weather</button>
+      </form><br><br><br><br><br>
+
+      <div class="result">
+        <u><span id="returnCity"></span></u><br>
+          Humidity: <span id="humidity"></span>%<br>
+          Temperature max: <span id="tempMax"></span>K
+          <button type="button" class="convertToCelsius" name="button"></button><br>
+          Temperature min: <span id="tempMin"></span>K
+          <button type="button" class="convertToFahrenheit" name="button"></button><br>
+        <p id="showError"></p>
+      </div>
+
+    </div>
+  </body>
+</html>
