@@ -1,4 +1,41 @@
-var apiKey = "efd8c5039b5c3a23c136a241b3d842fb";
+// when the file is concatenated and stored in the tmp folder, it then searches for the file in require(...). The line below says go up one folder to the main directory, then go to the js folder and find temperature.js
+// the exports package has the TemperatureModule module which we set equal to the Temperature object in temperature.js. Here we re-create another Temperature object from the exports package
+var Temperature = require('./../js/temperature.js').TemperatureModule;
+// require(...) imports the exports package which contains the ajaxRequest function module
+var response = require
+
+$(document).ready(function() {
+
+  // var city = "Portland";
+  // var response = ajaxRequest(city);
+  // // var city = response.name;
+  //
+  // // kelvinMax = response.main.temp_max;
+  // // kelvinMin = response.main.temp_min;
+  //
+  // // create Temperature objects
+  // var newTemperatureMax = new Temperature(kelvinMax);
+  // var newTemperatureMin = new Temperature(kelvinMin);
+  //
+  // $(".convertToFahrenheit").click(function() {
+  //   newTemperatureMax.convertToFahrenheit();
+  // });
+  // $(".convertToCelsius").click(function() {
+  //   newTemperatureMax.convertToCelsius();
+  // });
+  //
+  // $(".convertToFahrenheit").click(function() {
+  //   newTemperatureMin.convertToFahrenheit();
+  // });
+  // $(".convertToCelsius").click(function() {
+  //   newTemperatureMin.convertToCelsius();
+  // });
+
+// end of document ready
+});
+
+// require(...) imports the exports package which contains the ajaxRequest function module
+var ajaxRequest = require('./../js/weather_request.js').ajaxRequest;
 
 // empty fields
 function resetFields () {
@@ -27,25 +64,15 @@ $(document).ready(function() {
     var state = $('#state').val();
     var city = $('#city').val();
 
-    // // new weather object
-    // var newWeather = new Weather (name, country, state);
-    // // format result using weather object
-    // weatherResult= newAlarm.result();
-    // // display result
-    // $("#result").text(weatherResult);
-
     // resetFields after parameter transfer so new weather easily
     resetFields();
 
     // display
     $("#returnCity").text(city);
-    $.get('http://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + apiKey, function(response) {
-      $("#humidity").text(response.main.humidity);
-      $("#tempMax").text(response.main.temp_max);
-      $("#tempMin").text(response.main.temp_min);
-    });.fail(function(error) {
-      $('#showError').text(error.responseJSON.message);
-    });
+
+    // make weather request with CORS(cross-origin resource sharing)
+    // although we do not need to collect response here because we already fed the humidity and temp values in weather_request.js back end file
+    var response = ajaxRequest(city);
 
   // end of submit event
   });

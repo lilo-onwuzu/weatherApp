@@ -1,11 +1,14 @@
-exports.Temperature = function(kelvin){
+var Temperature = function(kelvin){
   this.kelvin = kelvin;
-}
+};
 
-exports.Temperature.prototype.convertToFahrenheit = function() {
+Temperature.prototype.convertToFahrenheit = function() {
   return (this.kelvin - 273.15)*1.8 + 32;
-}
+};
 
-exports.Temperature.prototype.convertToCelsius = function() {
-  return this.kelvin - 273.15
-}
+Temperature.prototype.convertToCelsius = function() {
+  return this.kelvin - 273.15;
+};
+
+// another way to export the Temperature object
+exports.TemperatureModule = Temperature;

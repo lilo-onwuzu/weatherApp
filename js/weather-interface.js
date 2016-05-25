@@ -1,3 +1,6 @@
+// require(...) imports the exports package which contains the ajaxRequest function module
+var ajaxRequest = require('./../js/weather_request.js').ajaxRequest;
+
 // empty fields
 function resetFields () {
   $("#country").val("");
@@ -32,11 +35,8 @@ $(document).ready(function() {
     $("#returnCity").text(city);
 
     // make weather request with CORS(cross-origin resource sharing)
-    ajaxRequest(city);
-
-    $("#humidity").text(response.main.humidity);
-    $("#tempMax").text(response.main.temp_max);
-    $("#tempMin").text(response.main.temp_min);
+    // although we do not need to collect response here because we already fed the humidity and temp values in weather_request.js back end file
+    var response = ajaxRequest(city);
 
   // end of submit event
   });
