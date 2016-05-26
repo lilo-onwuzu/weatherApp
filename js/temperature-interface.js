@@ -2,34 +2,37 @@
 // the exports package has the TemperatureModule module which we set equal to the Temperature object in temperature.js. Here we re-create another Temperature object from the exports package
 var Temperature = require('./../js/temperature.js').TemperatureModule;
 // require(...) imports the exports package which contains the ajaxRequest function module
-var response = require
+var newTemperatureMax;
+var newTemperatureMin;
+
+var convertFunction = function(response) {
+  var kelvinMax = response.main.temp_max;
+  var kelvinMin = response.main.temp_min;
+  // create Temperature objects
+  newTemperatureMax = new Temperature(kelvinMax);
+  newTemperatureMin = new Temperature(kelvinMin);
+};
 
 $(document).ready(function() {
 
-  // var city = "Portland";
-  // var response = ajaxRequest(city);
-  // // var city = response.name;
-  //
-  // // kelvinMax = response.main.temp_max;
-  // // kelvinMin = response.main.temp_min;
-  //
-  // // create Temperature objects
-  // var newTemperatureMax = new Temperature(kelvinMax);
-  // var newTemperatureMin = new Temperature(kelvinMin);
-  //
-  // $(".convertToFahrenheit").click(function() {
-  //   newTemperatureMax.convertToFahrenheit();
-  // });
-  // $(".convertToCelsius").click(function() {
-  //   newTemperatureMax.convertToCelsius();
-  // });
-  //
-  // $(".convertToFahrenheit").click(function() {
-  //   newTemperatureMin.convertToFahrenheit();
-  // });
-  // $(".convertToCelsius").click(function() {
-  //   newTemperatureMin.convertToCelsius();
-  // });
+  // execute ajaxRequest to get response then execute hiddenFunction which in this case is convertFunction()
+  ajaxRequest(city, convertFunction);
+
+  $(".convertToFahrenheit").click(function() {
+    $("#tempMax").text(newTemperatureMax.convertToFahrenheit());
+    console.log("hi");
+  });
+  $(".convertToCelsius").click(function() {
+    $("#tempMax").text(newTemperatureMax.convertToCelsius());
+
+  });
+
+  $(".convertToFahrenheit").click(function() {
+    $("#tempMin").text(newTemperatureMin.convertToFahrenheit());
+  });
+  $(".convertToCelsius").click(function() {
+    $("#tempMin").text(newTemperatureMin.convertToCelsius());
+  });
 
 // end of document ready
 });

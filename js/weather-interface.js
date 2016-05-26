@@ -8,6 +8,19 @@ function resetFields () {
   $("#city").val("");
 }
 
+var displayFunction = function(response) {
+  // response is returned from the weather api in JSON format or an an array of objects
+  // 'cod' is a property of the response array/object
+  if (response.cod === "404") {
+    alert("city not found");
+  } else {
+    // Aha! displayFunction is the hiddenFunction that will execute when we call ajaxRequest() but only after the response has been received
+    $("#humidity").text(response.main.humidity);
+    $("#tempMax").text(response.main.temp_max);
+    $("#tempMin").text(response.main.temp_min);
+  }
+};
+
 // moment() here is a function that has been installed through Bower and packaged in the vendor.js and vendor.css files
 var time = moment().format('LT');
 
@@ -31,15 +44,12 @@ $(document).ready(function() {
     // resetFields after parameter transfer so new weather easily
     resetFields();
 
-    // display
+    // display section
     $("#returnCity").text(city);
-
-    // make weather request with CORS(cross-origin resource sharing)
-    // although we do not need to collect response here because we already fed the humidity and temp values in weather_request.js back end file
-    var response = ajaxRequest(city);
+    // make weather request with CORS(cross-origin resource sharing). Collect response then feed it as an argument into displayFunction()
+    ajaxRequest(city, displayFunction);
 
   // end of submit event
   });
-
 // end of document ready
 });
