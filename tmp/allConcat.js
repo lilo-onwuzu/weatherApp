@@ -11,20 +11,15 @@ var convertFunction = function(response) {
   // create Temperature objects
   newTemperatureMax = new Temperature(kelvinMax);
   newTemperatureMin = new Temperature(kelvinMin);
-};
-
-$(document).ready(function() {
-
-  // execute ajaxRequest to get response then execute hiddenFunction which in this case is convertFunction()
-  ajaxRequest(city, convertFunction);
 
   $(".convertToFahrenheit").click(function() {
     $("#tempMax").text(newTemperatureMax.convertToFahrenheit());
-    console.log("hi");
   });
   $(".convertToCelsius").click(function() {
     $("#tempMax").text(newTemperatureMax.convertToCelsius());
-
+  });
+  $(".convertToKelvin").click(function() {
+    $("#tempMax").text(response.main.temp_max);
   });
 
   $(".convertToFahrenheit").click(function() {
@@ -33,9 +28,14 @@ $(document).ready(function() {
   $(".convertToCelsius").click(function() {
     $("#tempMin").text(newTemperatureMin.convertToCelsius());
   });
+  $(".convertToKelvin").click(function() {
+    $("#tempMin").text(response.main.temp_min);
+  });
 
-// end of document ready
-});
+};
+
+// execute ajaxRequest to get response then execute hiddenFunction which in this case is convertFunction()
+// convertFunction() is embedded in the ajaxRequest() function and will execute serially (ajaxRequest collects response then convertFunction uses its argument response to execute)
 
 // require(...) imports the exports package which contains the ajaxRequest function module
 var ajaxRequest = require('./../js/weather_request.js').ajaxRequest;
@@ -87,6 +87,8 @@ $(document).ready(function() {
     $("#returnCity").text(city);
     // make weather request with CORS(cross-origin resource sharing). Collect response then feed it as an argument into displayFunction()
     ajaxRequest(city, displayFunction);
+    // make weather request again, and then execute embedded function convertFunction() with response argument. convertFunction(response) attaches a click listener to convert button that converts the response.main.temp that is reported in K into F and C
+    ajaxRequest(city, convertFunction);
 
   // end of submit event
   });

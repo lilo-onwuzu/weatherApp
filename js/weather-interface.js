@@ -48,6 +48,8 @@ $(document).ready(function() {
     $("#returnCity").text(city);
     // make weather request with CORS(cross-origin resource sharing). Collect response then feed it as an argument into displayFunction()
     ajaxRequest(city, displayFunction);
+    // make weather request again, and then execute embedded function convertFunction() with response argument. convertFunction(response) attaches a click listener to convert button that converts the response.main.temp that is reported in K into F and C
+    ajaxRequest(city, convertFunction);
 
   // end of submit event
   });

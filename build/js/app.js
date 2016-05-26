@@ -33,7 +33,8 @@ exports.ajaxRequest = function(city, hiddenFunction) {
     function(response) {
     // execute hiddenFunction with response as an argument. Our hiddenFunction here will likely be a display function that needs response
     hiddenFunction(response);
-
+    // we may need response later on in UI
+    
   // if the ajax request fails (i.e no internet connection for example) then show ajax request error message. 404 request (or city not found) is not included here as it will return a response with a 404 as its 'cod' attribute
   }).fail(function(error) {
     alert(error.responseJSON.message);
@@ -55,20 +56,15 @@ var convertFunction = function(response) {
   // create Temperature objects
   newTemperatureMax = new Temperature(kelvinMax);
   newTemperatureMin = new Temperature(kelvinMin);
-};
-
-$(document).ready(function() {
-
-  // execute ajaxRequest to get response then execute hiddenFunction which in this case is convertFunction()
-  ajaxRequest(city, convertFunction);
 
   $(".convertToFahrenheit").click(function() {
     $("#tempMax").text(newTemperatureMax.convertToFahrenheit());
-    console.log("hi");
   });
   $(".convertToCelsius").click(function() {
     $("#tempMax").text(newTemperatureMax.convertToCelsius());
-
+  });
+  $(".convertToKelvin").click(function() {
+    $("#tempMax").text(response.main.temp_max);
   });
 
   $(".convertToFahrenheit").click(function() {
@@ -77,9 +73,14 @@ $(document).ready(function() {
   $(".convertToCelsius").click(function() {
     $("#tempMin").text(newTemperatureMin.convertToCelsius());
   });
+  $(".convertToKelvin").click(function() {
+    $("#tempMin").text(response.main.temp_min);
+  });
 
-// end of document ready
-});
+};
+
+// execute ajaxRequest to get response then execute hiddenFunction which in this case is convertFunction()
+// convertFunction() is embedded in the ajaxRequest() function and will execute serially (ajaxRequest collects response then convertFunction uses its argument response to execute)
 
 // require(...) imports the exports package which contains the ajaxRequest function module
 var ajaxRequest = require('./../js/weather_request.js').ajaxRequest;
@@ -131,6 +132,8 @@ $(document).ready(function() {
     $("#returnCity").text(city);
     // make weather request with CORS(cross-origin resource sharing). Collect response then feed it as an argument into displayFunction()
     ajaxRequest(city, displayFunction);
+    // make weather request again, and then execute embedded function convertFunction() with response argument. convertFunction(response) attaches a click listener to convert button that converts the response.main.temp that is reported in K into F and C
+    ajaxRequest(city, convertFunction);
 
   // end of submit event
   });

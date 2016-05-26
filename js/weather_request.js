@@ -13,7 +13,8 @@ exports.ajaxRequest = function(city, hiddenFunction) {
     function(response) {
     // execute hiddenFunction with response as an argument. Our hiddenFunction here will likely be a display function that needs response
     hiddenFunction(response);
-
+    // we may need response later on in UI
+    
   // if the ajax request fails (i.e no internet connection for example) then show ajax request error message. 404 request (or city not found) is not included here as it will return a response with a 404 as its 'cod' attribute
   }).fail(function(error) {
     alert(error.responseJSON.message);
