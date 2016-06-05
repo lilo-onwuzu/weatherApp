@@ -121,9 +121,15 @@ $(document).ready(function() {
     event.preventDefault();
 
     // transfer parameters
-    var country = $('#country').val();
     var state = $('#state').val();
     var city = $('#city').val();
+
+    // include state
+    if (state) {
+      city = state;
+    } else {
+      city = city;
+    }
 
     // resetFields after parameter transfer so new weather easily
     resetFields();
